@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINECRAFT SHOP - Heros Server</title>
+    <meta name="description" content="Entdecke exklusive Minecraft Server Items und Ränge. Bezahlung nur mit Paysafecard!">
+    <meta name="keywords" content="Minecraft, Server, Shop, VIP, Rang, Items, Paysafecard">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/heros-logo.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/images/heros-logo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: -2;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%);
+            backdrop-filter: blur(1px);
+        }
+
+        /* Neon Colors */
+        .neon-pink { color: #ff99dd; }
+        .neon-blue { color: #66b3ff; }
+        .neon-lightblue { color: #99ccff; }
+        .neon-green { color: #99ff99; }
+        .neon-purple { color: #cc99ff; }
+        .neon-yellow { color: #ffff99; }
+        .neon-cyan { color: #99ffff; }
+        .neon-orange { color: #ffcc99; }
+
+        /* Header */
+        .header {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 2px solid #ff99dd;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            color: #ff99dd;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #66b3ff, #99ff99);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px rgba(102, 179, 255, 0.3));
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #66b3ff, #99ff99);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 179, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #99ff99, #66b3ff);
+            box-shadow: 0 6px 20px rgba(102, 179, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: rgba(17, 24, 39, 0.9);
+            border: 2px solid #66b3ff;
+            color: #66b3ff;
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-outline:hover {
+            background: #66b3ff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(17, 24, 39, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #66b3ff, #99ff99);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(102, 179, 255, 0.5));
+            line-height: 1.1;
+        }
+
+        .hero-description {
+            background: rgba(17, 24, 39, 0.9);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-description p {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .star {
+            width: 32px;
+            height: 32px;
+            color: #ffff99;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 153, 0.5));
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 1rem;
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(17, 24, 39, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+
+        .features-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .features-title {
+            background: rgba(17, 24, 39, 0.9);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin-bottom: 3rem;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .features-title h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(17, 24, 39, 0.95);
+            border: 2px solid #cc99ff;
+            border-radius: 1rem;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #ff99dd;
+            box-shadow: 0 0 40px rgba(255, 153, 221, 0.3), 0 0 80px rgba(255, 153, 221, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            color: #99ccff;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: white;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .feature-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(17, 24, 39, 0.8);
+            border-top: 2px solid #99ffff;
+            padding: 2rem 1rem;
+            backdrop-filter: blur(16px);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer p {
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 179, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 30px rgba(153, 255, 153, 0.7)); }
+        }
+
+        .logo-text {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: -2s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: -4s;
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(102, 179, 255, 0.3);
+            border-top: 3px solid #66b3ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <span class="logo-text">MINECRAFT SHOP</span>
+            </div>
+            <nav class="nav-buttons">
+                <a href="/" class="btn btn-primary">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Zum Shop
+                </a>
+                <a href="/admin" class="btn btn-outline">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C14.8,12.4 14.4,13.2 13.7,13.7V16.5C13.7,17.3 13.1,18 12.3,18H11.7C10.9,18 10.3,17.3 10.3,16.5V13.7C9.6,13.2 9.2,12.4 9.2,11.5V10C9.2,8.6 10.6,7 12,7Z"/>
+                    </svg>
+                    Admin Panel
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">MINECRAFT SERVER SHOP</h1>
+            <div class="hero-description">
+                <p>Entdecke exklusive Minecraft Server Items und Ränge. Bezahlung nur mit Paysafecard!</p>
+            </div>
+            <div class="stars">
+                <svg class="star" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+                </svg>
+                <svg class="star" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+                </svg>
+                <svg class="star" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+                </svg>
+                <svg class="star" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+                </svg>
+                <svg class="star" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-content">
+            <div class="features-title">
+                <h3>UNSERE ARTIKEL</h3>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <svg class="feature-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5,16L3,5H1V3H4L6,14H18L20,7H8L8.5,5H21.5C21.8,5 22,5.2 22,5.5C22,5.6 22,5.7 21.9,5.8L19.4,14.2C19.3,14.7 18.9,15 18.4,15H6.1L5.7,17H19V19H5C4.4,19 4,18.6 4,18C4,17.9 4,17.8 4.1,17.7L5,16M18.5,21A1.5,1.5 0 0,1 17,19.5A1.5,1.5 0 0,1 18.5,18A1.5,1.5 0 0,1 20,19.5A1.5,1.5 0 0,1 18.5,21M8.5,21A1.5,1.5 0 0,1 7,19.5A1.5,1.5 0 0,1 8.5,18A1.5,1.5 0 0,1 10,19.5A1.5,1.5 0 0,1 8.5,21Z"/>
+                    </svg>
+                    <h4 class="feature-title">VIP Rang</h4>
+                    <p class="feature-description">Erhalte VIP-Status auf unserem Minecraft Server mit exklusiven Vorteilen und besonderen Rechten.</p>
+                    <div class="feature-price">€9.99</div>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                    </svg>
+                    <h4 class="feature-title">Premium Kit</h4>
+                    <p class="feature-description">Starter-Kit mit wertvollen Items für deinen perfekten Minecraft-Start auf unserem Server.</p>
+                    <div class="feature-price">€4.99</div>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                    </svg>
+                    <h4 class="feature-title">Sichere Zahlung</h4>
+                    <p class="feature-description">Alle Zahlungen erfolgen sicher über Paysafecard. Schnelle Bearbeitung und sofortige Freischaltung.</p>
+                    <div class="feature-price neon-green">SICHER</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2024 Minecraft Shop. Alle Rechte vorbehalten. Nur Paysafecard-Zahlungen akzeptiert.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px) scale(1)';
+            });
+        });
+
+        // Add click effects to buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Create ripple effect
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.pointerEvents = 'none';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Console welcome message
+        console.log('%c🎮 MINECRAFT SHOP 🎮', 'color: #66b3ff; font-size: 20px; font-weight: bold;');
+        console.log('%cWillkommen im Heros Minecraft Server Shop!', 'color: #99ff99; font-size: 14px;');
+        console.log('%cBesuche /admin für das Administrator-Panel', 'color: #ff99dd; font-size: 12px;');
+    </script>
+</body>
+</html>
